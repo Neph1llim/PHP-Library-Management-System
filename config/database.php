@@ -1,10 +1,9 @@
-// This file is for connecting to the database.
 <?php
+// This file is for connecting to the database.
     $db_server = "localhost";
     $db_username = "root";
     $db_password = "";
-    $db_name = "Library_management_system";
-    $conn = "";
+    $db_name = "library_management_system";
 
     // Create connection
     $conn = new mysqli($db_server, $db_username, $db_password, $db_name);

@@ -1,4 +1,22 @@
 DELIMITER $$
+
+-- =========================
+-- Login User
+-- =========================
+CREATE PROCEDURE SP_LoginUser (
+    IN p_Email VARCHAR(150)
+)
+BEGIN
+    SELECT 
+        user_id,
+        email,
+        password,
+        user_type
+    FROM users
+    WHERE email = p_Email
+    LIMIT 1;
+END$$
+
 -- =========================
 -- ADD BOOK
 -- =========================
