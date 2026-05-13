@@ -1,20 +1,16 @@
 <?php
-// This file is for connecting to the database.
-    $db_server = "localhost";
-    $db_username = "root";
-    $db_password = "";
-    $db_name = "library_management_system";
-
-    // Create connection
-    $conn = new mysqli($db_server, $db_username, $db_password, $db_name);
-
-    // Check connection
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
+function getDB() {
+    $host = 'localhost';
+    $dbname = 'library_management_system';
+    $user = 'root';
+    $pass = '';
+    
+    try {
+        $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $user, $pass);
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        return $pdo;
+    } catch(PDOException $e) {
+        die("Connection failed: " . $e->getMessage());
     }
-
-    // Set charset
-    if (!$conn->set_charset("utf8mb4")) {
-        die("Error loading character set utf8mb4: " . $conn->error);
-    }
+}
 ?>
