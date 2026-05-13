@@ -3,7 +3,11 @@
 session_start();
 
 if (isset($_SESSION['user_id'])) {
+<<<<<<< HEAD
     header("Location: ../admin/dashboard.php");
+=======
+    header("Location: ../users/dashboard.php");
+>>>>>>> a433c1c (Signup and Login (FIXED))
     exit;
 }
 
