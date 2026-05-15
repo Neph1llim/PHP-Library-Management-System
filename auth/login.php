@@ -2,7 +2,17 @@
 session_start();
 
 if (isset($_SESSION['user_id'])) {
+<<<<<<< Updated upstream
     header("Location: ../users/dashboard.php");
+=======
+
+    if ($_SESSION['user_type'] === 'admin') {
+        header("Location: ../admin/admindashboard.php");
+    } else {
+        header("Location: ../users/dashboard.php");
+    }
+
+>>>>>>> Stashed changes
     exit;
 }
 
@@ -35,8 +45,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $_SESSION['user_type'] = $user['user_type'];
                 $_SESSION['email'] = $user['email'];
                 $_SESSION['full_name'] = $nameResult['full_name'] ?? 'User';
+<<<<<<< Updated upstream
                 
                 header("Location: ../users/dashboard.php");
+=======
+
+                // Redirect based on user type
+                if ($user['user_type'] === 'Admin') {
+
+                    header("Location: ../admin/admindashboard.php");
+
+                } else {
+
+                    header("Location: ../users/dashboard.php");
+                }
+
+>>>>>>> Stashed changes
                 exit;
             } else {
                 $error = "Invalid email or password.";
