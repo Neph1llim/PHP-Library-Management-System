@@ -1,18 +1,14 @@
 <?php
 session_start();
 
+// Redirect already logged-in users
 if (isset($_SESSION['user_id'])) {
-<<<<<<< Updated upstream
-    header("Location: ../users/dashboard.php");
-=======
 
     if ($_SESSION['user_type'] === 'admin') {
         header("Location: ../admin/admindashboard.php");
-    } else {
+    else {
         header("Location: ../users/dashboard.php");
     }
-
->>>>>>> Stashed changes
     exit;
 }
 
@@ -21,34 +17,54 @@ require_once '../config/database.php';
 $error = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
     $email = trim($_POST['email'] ?? '');
     $password = $_POST['password'] ?? '';
-    
+
     if (empty($email) || empty($password)) {
+
         $error = "Please enter both email and password.";
+
     } else {
+
         $db = getDB();
-        
+
         try {
+
             $stmt = $db->prepare("CALL SP_LoginUser(?)");
             $stmt->execute([$email]);
+
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
             $stmt->closeCursor();
-            
+
             if ($user && password_verify($password, $user['password'])) {
-                $nameStmt = $db->prepare("SELECT TRIM(CONCAT(first_name, ' ', COALESCE(middle_name, ''), ' ', last_name)) as full_name FROM users WHERE user_id = ?");
+
+                $nameStmt = $db->prepare("
+                    SELECT TRIM(
+                        CONCAT(
+                            first_name, ' ',
+                            COALESCE(middle_name, ''), ' ',
+                            last_name
+                        )
+                    ) as full_name
+                    FROM users
+                    WHERE user_id = ?
+                ");
+
                 $nameStmt->execute([$user['user_id']]);
+
                 $nameResult = $nameStmt->fetch(PDO::FETCH_ASSOC);
+
                 $nameStmt->closeCursor();
-                
+
+                // Store session data
                 $_SESSION['user_id'] = $user['user_id'];
                 $_SESSION['user_type'] = $user['user_type'];
                 $_SESSION['email'] = $user['email'];
                 $_SESSION['full_name'] = $nameResult['full_name'] ?? 'User';
-<<<<<<< Updated upstream
                 
                 header("Location: ../users/dashboard.php");
-=======
 
                 // Redirect based on user type
                 if ($user['user_type'] === 'Admin') {
@@ -60,14 +76,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     header("Location: ../users/dashboard.php");
                 }
 
->>>>>>> Stashed changes
                 exit;
+
             } else {
+
                 $error = "Invalid email or password.";
             }
+
         } catch (PDOException $e) {
+
             $error = "Login failed: " . $e->getMessage();
         }
+
         $db = null;
     }
 }

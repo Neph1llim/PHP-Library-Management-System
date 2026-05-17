@@ -112,12 +112,12 @@ BEGIN
     FROM items i
     JOIN categories c ON c.category_id = i.category_id
     WHERE (p_Category_ID IS NULL OR i.category_id = p_Category_ID)
-      AND (
-          i.title LIKE CONCAT('%', p_Keyword, '%')
-          OR i.author LIKE CONCAT('%', p_Keyword, '%')
-          OR i.isbn LIKE CONCAT('%', p_Keyword, '%')
-          OR i.publisher LIKE CONCAT('%', p_Keyword, '%')
-      )
+    AND (
+        i.title LIKE CONCAT('%', p_Keyword, '%')
+        OR i.author LIKE CONCAT('%', p_Keyword, '%')
+        OR i.isbn LIKE CONCAT('%', p_Keyword, '%')
+        OR i.publisher LIKE CONCAT('%', p_Keyword, '%')
+    )
     ORDER BY i.title;
 END$$
 
@@ -263,7 +263,7 @@ BEGIN
     SELECT COUNT(*) INTO v_existing
     FROM schedule
     WHERE user_id = p_User_ID AND item_id = p_Item_ID
-      AND status IN ('Pending','Approved');
+        AND status IN ('Pending','Approved');
 
     IF v_existing > 0 THEN
         SIGNAL SQLSTATE '45000'
