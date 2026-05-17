@@ -5,11 +5,10 @@ session_start();
 if (isset($_SESSION['user_id'])) {
 
     if ($_SESSION['user_type'] === 'admin') {
-        header("Location: ../admin/dashboard.php");
-    } else {
+        header("Location: ../admin/admindashboard.php");
+    else {
         header("Location: ../users/dashboard.php");
     }
-
     exit;
 }
 
@@ -64,11 +63,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $_SESSION['user_type'] = $user['user_type'];
                 $_SESSION['email'] = $user['email'];
                 $_SESSION['full_name'] = $nameResult['full_name'] ?? 'User';
+                
+                header("Location: ../users/dashboard.php");
 
                 // Redirect based on user type
                 if ($user['user_type'] === 'Admin') {
 
-                    header("Location: ../admin/dashboard.php");
+                    header("Location: ../admin/admindashboard.php");
 
                 } else {
 
