@@ -6,7 +6,7 @@ if (isset($_SESSION['user_id'])) {
 
     if ($_SESSION['user_type'] === 'admin') {
         header("Location: ../admin/admindashboard.php");
-    else {
+    } else {
         header("Location: ../users/dashboard.php");
     }
     exit;
